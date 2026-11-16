@@ -23,7 +23,13 @@ import {
 import { useFileUrls } from '../lib/useFileUrls'
 import { formatBytes, formatDayLabel, formatTime, isImage } from '../lib/format'
 
-export default function ChatPage({ groups, displayName, userId, onGroup }) {
+// Wrapper: the key forces React to rebuild the whole page when the group changes
+export default function ChatPage(props) {
+  const { groupId } = useParams()
+  return <ChatPageInner key={groupId} {...props} />
+}
+
+function ChatPageInner({ groups, displayName, userId, onGroup }) {
   const { groupId } = useParams()
   const [group, setGroup] = useState(() => groups.find((item) => item.id === groupId) || null)
   const [messages, setMessages] = useState([])
